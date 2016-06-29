@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using System.IO;
+using TechnoVilla.Helper.Library;
 
 namespace TechnoVilla.Helper.Console
 {
@@ -31,16 +32,9 @@ namespace TechnoVilla.Helper.Console
                         string xpath = args[2];
                         string value = args[3];
 
-                        if (!File.Exists(fileName))
-                            throw new FileNotFoundException($"File '{fileName}' not found.");
+                        XmlHelper xmlHelper = new XmlHelper();
 
-                        var doc = XDocument.Load(fileName);
-                        var element = doc.XPathSelectElement(xpath);
-                        if (element == null)
-                            throw new Exception("XPath element not found.");
-
-                        element.Value = value;
-                        doc.Save(fileName);
+                        xmlHelper.UpdateXml(fileName, xpath, value);
 
                         C.WriteLine($"Successfully updated file {fileName}");
 
